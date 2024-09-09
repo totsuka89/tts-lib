@@ -4,6 +4,7 @@
 
 #include "GoogleTts.h"
 
+#include <Logger.h>
 #include <RestfulClient.h>
 #include <base64.h>
 
@@ -13,23 +14,24 @@ using namespace std;
 using json = nlohmann::json;
 
 namespace RAIREAR::TTS {
-string GoogleTts::synthesis() const {
+void GoogleTts::synthesis() {
+    m_result = "";
+
     const string url = makeUrl();
     const json jsonBody = makeJson();
 
     const Http::RestfulClient client;
     const json response =
         json::parse(client.request(Http::Method::REST_POST, url, jsonBody.dump()));
-    const string result = base64_decode(response["audioContent"]);
 
-    return result;
+    m_result = base64_decode(response["audioContent"]);
 }
 
 string GoogleTts::makeUrl() const {
     string apiKey;
 
     try {
-        apiKey = get<string>(m_parameter.at("api_key"));
+        apiKey = get<string>(m_parameters.at("api_key"));
     } catch (const exception& e) {
         cerr << "Error: Exception occurred - " << e.what() << endl;
         return "";
@@ -50,8 +52,8 @@ nlohmann::json GoogleTts::makeJson() const {
     string text;
 
     try {
-        language = get<string>(m_parameter.at("language"));
-        text = get<string>(m_parameter.at("text"));
+        language = get<string>(m_parameters.at("language"));
+        text = get<string>(m_parameters.at("text"));
     } catch (const exception& e) {
         cerr << "Error: Exception occurred - " << e.what() << endl;
         return {};

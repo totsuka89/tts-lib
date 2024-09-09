@@ -8,11 +8,12 @@ include_directories(
         include
 )
 
-set(LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lib/${CMAKE_SYSTEM_NAME}/${CMAKE_SYSTEM_PROCESSOR}")
+set(LIBRARY_PATH
+        "${CMAKE_CURRENT_SOURCE_DIR}/lib/${CMAKE_SYSTEM_NAME}/${CMAKE_SYSTEM_PROCESSOR}"
+        "../output/${CMAKE_BUILD_TYPE}"
+)
 link_directories(${LIBRARY_PATH})
 
 add_executable(runTests tts-test.cpp)
 
-target_link_libraries(runTests tts gtest)
-
-target_link_libraries(tts PRIVATE curl)
+target_link_libraries(runTests tts gtest pthread)

@@ -16,7 +16,7 @@ class GoogleTts final : public TtsService {
 
     ~GoogleTts() override = default;
 
-    [[nodiscard]] std::string synthesis() const override;
+    void synthesis() override;
 
    private:
     [[nodiscard]] std::string makeUrl() const;

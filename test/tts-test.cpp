@@ -4,8 +4,7 @@
 
 #include <gtest/gtest.h>
 
-#include "../google/GoogleTts.h"
-#include "../include/TtsService.h"
+#include "../include/TtsApi.h"
 
 using namespace RAIREAR::TTS;
 
@@ -14,22 +13,22 @@ using namespace RAIREAR::TTS;
 class GoogleTtsTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        tts = new GoogleTts();
+        hTts = TTS_API_CreateHandle(GOOGLE);
 
-        ParameterBuilder builder;
-        const auto parameter = builder.setLanguage("en-US")
-                                   .setText("test message")
-                                   .set("api_key", GOOGLE_TTS_API_KEY)
-                                   .build();
-        tts->setParameter(parameter);
+        TTS_API_SetParameter(hTts, std::string("language").c_str(), std::string("en-US").c_str());
+        TTS_API_SetParameter(hTts, std::string("text").c_str(),
+                             std::string("test message").c_str());
+        TTS_API_SetParameter(hTts, std::string("api_key").c_str(),
+                             std::string(GOOGLE_TTS_API_KEY).c_str());
+        TTS_API_Synthesis(hTts);
     }
 
-    void TearDown() override { delete tts; }
+    void TearDown() override { TTS_API_ReleaseHandle(hTts); }
 
-    GoogleTts* tts;
+    TTS_SERVICE_HANDLE hTts = nullptr;
 };
 
-TEST_F(GoogleTtsTest, GoogleTtsTest) { EXPECT_NO_FATAL_FAILURE(tts->synthesis()); }
+TEST_F(GoogleTtsTest, GoogleTtsTest) { EXPECT_NE(TTS_API_GetResult(hTts), ""); }
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
