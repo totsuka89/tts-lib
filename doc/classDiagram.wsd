@@ -1,0 +1,67 @@
+@startuml
+top to bottom direction
+
+namespace RAIREAR::TTS {
+    abstract class TtsService {
+        - m_parameter : Parameter
+        + setParameter(parameter : Parameter) : void
+    }
+
+    TtsService <|-- GoogleTts
+    TtsService --> Parameter
+
+    class GoogleTts {
+        + synthesis() : string
+        + makeUrl() : string
+        + makeJson() : nlohmann::json
+    }
+
+    TtsService <.. TtsServiceFactory
+
+    class TtsServiceFactory {
+        + create(ttsType : TtsType) : std::unique_ptr<TtsService>
+    }
+
+    class Parameter {
+    }
+
+    class ParameterBuilder {
+        - m_parameter : Parameter
+        + setLanguage(language : std::string_view) : ParameterBuilder
+        + setText(text : std::string_view) : ParameterBuilder
+        + setFile(file : std::string_view) : ParameterBuilder
+        + set(key : std::string_view, value : std::string_view) : ParameterBuilder
+        + build() : Parameter
+    }
+
+    Parameter <.. ParameterBuilder
+}
+
+namespace RAIREAR::Http {
+    class RestfulClient {
+        - m_curl : CURL*
+        + request(method : Method, url : std::string_view, body : std::string_view) : std::string
+        + ~RestfulClient()
+        + WriteCallback(contents : void*, size : size_t, nmemb : size_t, userp : std::string*) : size_t
+    }
+
+    enum Method {
+        REST_GET
+        REST_POST
+        REST_PUT
+        REST_DELETE
+    }
+}
+
+GoogleTts ..> RestfulClient
+
+namespace RAIREAR::Logger {
+    class Logger {
+        - logCallback : LogCallback
+        + getInstance() : Logger&
+        + setCallback(callback : LogCallback) : void
+        + log(level : std::string_view, message : std::string_view) : void
+    }
+}
+
+@enduml
