@@ -23,7 +23,7 @@ class TtsService {
 
     void setParameter(const std::string key, const std::string value) { m_parameters[key] = value; }
 
-    std::string getResult() { return m_result; }
+    std::string& getResult() { return m_result; }
 
     friend class TtsServiceFactory;
 
