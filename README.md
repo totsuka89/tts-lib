@@ -53,34 +53,47 @@ This library allows you to configure various parameters such as language and tex
 
 ## 예제 Example
 
-1. **TTS 서비스 생성 Creating a TTS Service**  
-   `TtsServiceFactory`를 통해 TTS 서비스를 생성할 수 있습니다.  
-   You can create a TTS service through `TtsServiceFactory`.
+1. **TTS 서비스 핸들 생성 Creating a handle of TTS Service**  
+   `TTS_API_CreateHandle()`를 통해 TTS 서비스의 핸들을 생성할 수 있습니다.  
+   You can create a handle of TTS service through `TTS_API_CreateHandle()`.
    ```cpp
-   auto tts = TtsServiceFactory::create(TtsType::GOOGLE);
+   TTS_SERVICE_HANDLE hTts = TTS_API_CreateHandle(GOOGLE);
    ```
 
 2. **매개변수 설정 Setting Parameters**  
-   `ParameterBuilder`를 사용하여 매개변수를 설정합니다.  
-   Use `ParameterBuilder` to set the parameters.  
+   `TTS_API_SetParameter()`를 사용하여 매개변수를 설정합니다.  
+   Use `TTS_API_SetParameter()` to set the parameters.  
    ```cpp
-   ParameterBuilder builder;
-   auto parameters = builder.setLanguage("ko-KR")
-                            .setText("안녕하세요")
-                            // case Google
-                            // .set("api_key", "custom_key")
-                            .build();
-   tts->setParameter(parameters);
+   // Example of setting the language.
+   TTS_API_SetParameter(hTts, std::string("language").c_str(), std::string("en-US").c_str());
+   // Example of setting the text for speech.
+   TTS_API_SetParameter(hTts, std::string("text").c_str(), std::string("test message").c_str());
+   // Example of setting the api key for google cloud service.
+   TTS_API_SetParameter(hTts, std::string("api_key").c_str(), std::string("GOOGLE_TTS_API_KEY").c_str());
    ```
 
 3. **음성 합성 Speech Synthesis**  
-   `synthesis()` 메서드를 호출하여 음성을 생성합니다.  
-   Call the `synthesis()` method to generate speech.
+   `TTS_API_Synthesis()` 함수를 호출하여 음성을 생성합니다.  
+   Call the `TTS_API_Synthesis()` function to generate speech.
    ```cpp
-   std::string result = tts->synthesis();
+   TTS_API_Synthesis(hTts);
    ```
 
-4. **로깅 Logging**  
+4. **결과 가져오기 Get Result**  
+   `TTS_API_GetResult()` 함수를 호출하여 결과를 가져옵니다.  
+   Call the `TTS_API_GetResult()` function to get result.
+   ```cpp
+   TTS_API_GetResult(hTts);
+   ```
+
+5. **TTS 서비스 핸들 해제 Releasing a handle of TTS Service**  
+   `TTS_API_ReleaseHandle()` 함수를 호출하여 핸들을 해제합니다..  
+   Call the `TTS_API_ReleaseHandle()` function to release handle.
+   ```cpp
+   TTS_API_GetResult(hTts);
+   ```
+
+6. **로깅 Logging**  
    사용자 정의 콜백으로 로거를 설정할 수 있습니다.  
    You can set the logger with a custom callback.  
    ```cpp
