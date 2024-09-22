@@ -16,6 +16,6 @@ void RAIREAR::Logger::Logger::setCallback(LogCallback callback) {
 void RAIREAR::Logger::Logger::log(const std::string_view level,
                                   const std::string_view message) const {
     if (logCallback) {
-        logCallback(std::string(level), message);
+        logCallback(level.data(), message.data());
     }
 }

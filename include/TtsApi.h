@@ -25,7 +25,7 @@ class TtsService;
 
 typedef enum TTS_TYPE { GOOGLE } TtsType;
 typedef RAIREAR::TTS::TtsService* TTS_SERVICE_HANDLE;
-// typedef class LoggerHandle* TTS_LOGGER_HANDLE;
+typedef void (*TTS_LOG_CALLBACK)(const char*, const char*);
 
 TTS_API_decl TTS_SERVICE_HANDLE TTS_API_CreateHandle(TtsType type);
 TTS_API_decl void TTS_API_ReleaseHandle(TTS_SERVICE_HANDLE handle);
@@ -34,6 +34,8 @@ TTS_API_decl void TTS_API_SetParameter(TTS_SERVICE_HANDLE handle, const char* ke
                                        const char* value);
 TTS_API_decl void TTS_API_Synthesis(TTS_SERVICE_HANDLE handle);
 TTS_API_decl const char* TTS_API_GetResult(TTS_SERVICE_HANDLE handle);
+
+TTS_API_decl void TTS_API_SetLogCallback(TTS_LOG_CALLBACK callback);
 
 #if defined(__cplusplus)
 }

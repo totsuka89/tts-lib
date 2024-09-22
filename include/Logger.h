@@ -12,7 +12,7 @@ namespace RAIREAR {
 namespace Logger {
 class Logger {
    public:
-    using LogCallback = std::function<void(std::string_view, std::string_view)>;
+    using LogCallback = std::function<void(const char*, const char*)>;
 
     static Logger& getInstance();
 
