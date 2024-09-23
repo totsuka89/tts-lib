@@ -65,11 +65,11 @@ This library allows you to configure various parameters such as language and tex
    Use `TTS_API_SetParameter()` to set the parameters.  
    ```cpp
    // Example of setting the language.
-   TTS_API_SetParameter(hTts, std::string("language").c_str(), std::string("en-US").c_str());
+   TTS_API_SetParameter(hTts, "language", "en-US");
    // Example of setting the text for speech.
-   TTS_API_SetParameter(hTts, std::string("text").c_str(), std::string("test message").c_str());
+   TTS_API_SetParameter(hTts, "text", "test message");
    // Example of setting the api key for google cloud service.
-   TTS_API_SetParameter(hTts, std::string("api_key").c_str(), std::string("GOOGLE_TTS_API_KEY").c_str());
+   TTS_API_SetParameter(hTts, "api_key", "GOOGLE_TTS_API_KEY");
    ```
 
 3. **음성 합성 Speech Synthesis**  

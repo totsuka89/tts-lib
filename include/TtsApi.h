@@ -11,7 +11,7 @@ extern "C" {
 #endif
 
 #if !defined(TTS_API_decl)
-#if defined(WIN32)
+#if defined(WIN32) || defined(_WIN32) || defined(WINCE)
 #define TTS_API_decl __declspec(dllexport)
 #include <stdlib.h>
 #else
