@@ -15,7 +15,8 @@ using json = nlohmann::json;
 
 namespace RAIREAR::TTS {
 void GoogleTts::synthesis() {
-    m_result = "";
+    delete m_result.first;
+    m_result.second = 0;
 
     const string url = makeUrl();
     const json jsonBody = makeJson();
@@ -24,7 +25,11 @@ void GoogleTts::synthesis() {
     const json response =
         json::parse(client.request(Http::Method::REST_POST, url, jsonBody.dump()));
 
-    m_result = base64_decode(response["audioContent"]);
+    const string result = base64_decode(response["audioContent"]);
+    
+    m_result.first = static_cast<char *>(malloc(result.size() * sizeof(char)));
+    m_result.second = result.size();
+    memcpy(m_result.first, result.data(), result.size());
 }
 
 string GoogleTts::makeUrl() const {

@@ -33,7 +33,7 @@ TTS_API_decl void TTS_API_ReleaseHandle(TTS_SERVICE_HANDLE handle);
 TTS_API_decl void TTS_API_SetParameter(TTS_SERVICE_HANDLE handle, const char* key,
                                        const char* value);
 TTS_API_decl void TTS_API_Synthesis(TTS_SERVICE_HANDLE handle);
-TTS_API_decl const char* TTS_API_GetResult(TTS_SERVICE_HANDLE handle);
+TTS_API_decl const char* TTS_API_GetResult(TTS_SERVICE_HANDLE handle, unsigned long* size);
 
 TTS_API_decl void TTS_API_SetLogCallback(TTS_LOG_CALLBACK callback);
 

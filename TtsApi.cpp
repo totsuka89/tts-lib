@@ -19,7 +19,10 @@ TTS_API_decl void TTS_API_SetParameter(TTS_SERVICE_HANDLE handle, const char* ke
 
 TTS_API_decl void TTS_API_Synthesis(TTS_SERVICE_HANDLE handle) { handle->synthesis(); }
 
-const char* TTS_API_GetResult(TTS_SERVICE_HANDLE handle) { return handle->getResult().c_str(); }
+const char* TTS_API_GetResult(TTS_SERVICE_HANDLE handle, size_t* size) {
+    *size = handle->getResult().second;
+    return handle->getResult().first;
+}
 
 void TTS_API_SetLogCallback(TTS_LOG_CALLBACK callback) {
     Logger::getInstance().setCallback(callback);

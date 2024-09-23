@@ -80,14 +80,15 @@ This library allows you to configure various parameters such as language and tex
    ```
 
 4. **결과 가져오기 Get Result**  
-   `TTS_API_GetResult()` 함수를 호출하여 결과를 가져옵니다.  
-   Call the `TTS_API_GetResult()` function to get result.
+   `TTS_API_GetResult()` 함수를 호출하여 결과 버퍼와 사이즈를 가져옵니다.  
+   Call the `TTS_API_GetResult()` function to get result buffer and size.
    ```cpp
-   TTS_API_GetResult(hTts);
+   size_t size;
+   TTS_API_GetResult(hTts, &size);
    ```
 
 5. **TTS 서비스 핸들 해제 Releasing a handle of TTS Service**  
-   `TTS_API_ReleaseHandle()` 함수를 호출하여 핸들을 해제합니다..  
+   `TTS_API_ReleaseHandle()` 함수를 호출하여 핸들을 해제합니다.  
    Call the `TTS_API_ReleaseHandle()` function to release handle.
    ```cpp
    TTS_API_GetResult(hTts);
@@ -97,8 +98,8 @@ This library allows you to configure various parameters such as language and tex
    사용자 정의 콜백으로 로거를 설정할 수 있습니다.  
    You can set the logger with a custom callback.  
    ```cpp
-    Logger::Logger::getInstance().setCallback(
-        [](std::string_view level, std::string_view message) {
+    TTS_API_SetLogCallback(
+        [](const char* level, const char* message) {
             std::cout << "[" << level << "] " << message << std::endl;
         }
     );

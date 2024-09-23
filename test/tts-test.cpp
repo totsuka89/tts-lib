@@ -28,7 +28,13 @@ class GoogleTtsTest : public ::testing::Test {
     TTS_SERVICE_HANDLE hTts = nullptr;
 };
 
-TEST_F(GoogleTtsTest, GoogleTtsTest) { EXPECT_NE(TTS_API_GetResult(hTts), ""); }
+TEST_F(GoogleTtsTest, GoogleTtsTest) {
+    size_t size;
+    TTS_API_GetResult(hTts, &size);
+    EXPECT_NE(size, 0);
+    EXPECT_GT(size, 4);
+    
+}
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
