@@ -66,6 +66,7 @@ nlohmann::json GoogleTts::makeJson() const {
 
     json json;
     json["voice"]["languageCode"] = language;
+    // json["voice"]["name"] = "en-US-Chirp-HD-F";
     json["input"]["text"] = text;
     json["audioConfig"]["audioEncoding"] = "mp3";
 
